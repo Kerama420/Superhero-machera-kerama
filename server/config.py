@@ -1,17 +1,8 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+import os
 
-# initialize db & migrate
-db = SQLAlchemy()
-migrate = Migrate()
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-def create_app():
-    app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///superheroes.db"
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    db.init_app(app)
-    migrate.init_app(app, db)
-
-    return app
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(BASE_DIR, 'superheroes.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

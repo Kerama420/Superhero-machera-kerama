@@ -1,25 +1,40 @@
-from config import create_app, db
-from models import Hero, Power
+from . import create_app, db
+from .models import Hero, Power, HeroPower
 
 app = create_app()
 
 with app.app_context():
+    print('Seeding database...')
     db.drop_all()
     db.create_all()
 
     heroes = [
-        Hero(name="Bruce Wayne", super_name="Batman"),
-        Hero(name="Clark Kent", super_name="Superman"),
-        Hero(name="Diana Prince", super_name="Wonder Woman")
+        Hero(name="Kamala Khan", super_name="Ms. Marvel"),
+        Hero(name="Doreen Green", super_name="Squirrel Girl"),
+        Hero(name="Gwen Stacy", super_name="Spider-Gwen"),
+        Hero(name="Janet Van Dyne", super_name="The Wasp"),
+        Hero(name="Wanda Maximoff", super_name="Scarlet Witch"),
+        Hero(name="Carol Danvers", super_name="Captain Marvel"),
+        Hero(name="Jean Grey", super_name="Dark Phoenix"),
+        Hero(name="Ororo Munroe", super_name="Storm"),
+        Hero(name="Kitty Pryde", super_name="Shadowcat"),
+        Hero(name="Elektra Natchios", super_name="Elektra")
     ]
 
     powers = [
-        Power(name="Super Strength", description="Gives the wielder super-human strengths"),
-        Power(name="Flight", description="Gives the wielder the ability to fly"),
-        Power(name="Invisibility", description="Makes the wielder invisible to the naked eye")
+        Power(name="super strength", description="gives the wielder super-human strengths"),
+        Power(name="flight", description="gives the wielder the ability to fly through the skies at supersonic speed"),
+        Power(name="super human senses", description="allows the wielder to use her senses at a super-human level"),
+        Power(name="elasticity", description="can stretch the human body to extreme lengths")
     ]
 
     db.session.add_all(heroes + powers)
     db.session.commit()
 
-    print("🌱 Database seeded!")
+    hp1 = HeroPower(strength='Strong', hero_id=1, power_id=1)
+    hp2 = HeroPower(strength='Average', hero_id=1, power_id=2)
+
+    db.session.add_all([hp1, hp2])
+    db.session.commit()
+
+    print('Done.')
